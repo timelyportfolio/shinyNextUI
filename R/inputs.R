@@ -156,7 +156,7 @@ create_group_input <- function(
       inputId = inputId,
       class = tolower(type),
       default = process_val(selected),
-      configuration = listRenderTags(list(children = as.list(choices), ...)),
+      configuration = list(children = choices), #listRenderTags(list(children = as.list(choices), ...)),
       container = htmltools::tags$div,
       dependencies = dependencies
     )

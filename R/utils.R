@@ -29,7 +29,7 @@ createReactShinyInput <- function (
     htmltools::tags$script(
       id = sprintf("%s_configuration", inputId),
       type = "application/json",
-      jsonlite::toJSON(configuration,  auto_unbox = TRUE, null = "null")
+      jsonlite::toJSON(configuration,  auto_unbox = TRUE, null = "null", force = TRUE)
     ),
     shinyReactDependency(),
     htmltools::htmlDependency(
