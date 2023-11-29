@@ -15,7 +15,8 @@ createReactShinyInput <- function (
     inputId,
     class,
     default = NULL, configuration = list(),
-    container = htmltools::tags$div
+    container = htmltools::tags$div,
+    dependencies = NULL
 ) {
   value <- shiny::restoreInput(id = inputId, default = default)
   htmltools::tagList(
@@ -37,7 +38,8 @@ createReactShinyInput <- function (
       src = "nextui-2.0.0",
       package = "shinyNextUI",
       script = "nextui.js"
-    )
+    ),
+    dependencies
   )
 }
 
