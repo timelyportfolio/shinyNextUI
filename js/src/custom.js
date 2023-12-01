@@ -1,5 +1,22 @@
 import * as NextUI from '@nextui-org/react';
 import * as ReactR from './utils.js';
+import React from "react";
+
+const convertTagToElement = (tag) => {
+  if(tag) {
+    if(React.isValidElement(tag)) return tag;
+    // looks like class attribute fine without changing to className
+    // also if we expect style prop then we would need to convert to object
+    //   or ask users to specify style as list in R unless also handled somewhere
+    return React.createElement(
+      tag.name,
+      tag.attribs,
+      tag.children
+    );
+  } else {
+    return null;
+  }
+}
 
 /* Radio and checkbox group don't work with shiny.react, have to use reactR ... */
 const GroupBuilder = (Component) => {
@@ -56,11 +73,15 @@ const DropdownBuilder = () => {
           let props = choice.props;
           if (choice.dropdownSection) {
             let items = choice.children.map(
-              (child) => <DropdownItem
-                key={child.title}
-                {...child}
-              >
-              </DropdownItem>
+              (child) => {
+                child.startContent = convertTagToElement(child.startContent);
+                child.endContent = convertTagToElement(child.endContent);
+                return <DropdownItem
+                  key={child.title}
+                  {...child}
+                >
+                </DropdownItem>
+              }
             )
 
             return(
@@ -71,7 +92,9 @@ const DropdownBuilder = () => {
               </DropdownSection>
             )
           } else {
-           return(
+            choice.startContent = convertTagToElement(choice.startContent);
+            choice.endContent = convertTagToElement(choice.endContent);
+            return(
               <DropdownItem
                 key={choice.title}
                 {...choice}
